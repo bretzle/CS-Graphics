@@ -6,7 +6,7 @@ Write a C++ console program that will:
 - open and read file (recommend reading line-by-line using getline)
 - identify each facet, and print the coordinates of each of its vertices to the console, readable and formatted
 - summarize contents
-  - thenumber of facetsin the file
+  - the number of facets in the file
   - the min and max of the x, y, and z coordinates
 - No need to store vertices, etc –we will do that later
 
