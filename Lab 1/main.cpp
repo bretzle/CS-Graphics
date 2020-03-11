@@ -6,6 +6,36 @@
 
 using namespace std;
 
+/**
+ * Verify that the command line arguments are valid
+ * 
+ * @return true if the args are valid else false
+ */
+bool check_args(int argc, char **argv)
+{
+    // Check that something is passed
+    if (argc != 2)
+    {
+        cout << "Invalid number of arguments." << endl;
+        cout << "Pass the loacation of a .stl file to read" << endl;
+
+        return false;
+    }
+
+    // Check that the argument is a .stl file
+    string name = string(argv[1]);
+    if (name.substr(name.find_last_of(".") + 1) != "stl")
+    {
+        cout << "File must be a .stl file" << endl;
+        return false;
+    }
+
+    return true;
+}
+
+/**
+ * Main entry point
+ */
 int main(int argc, char **argv)
 {
     ifstream file;
@@ -22,41 +52,36 @@ int main(int argc, char **argv)
     float maxY = -numeric_limits<float>::max();
     float maxZ = -numeric_limits<float>::max();
 
-    if (argc != 2)
+    // Check that args are valid
+    if (!check_args(argc, argv))
     {
-        cout << "Invalid number of arguments." << endl;
-        cout << "Pass the loacation of a .stl file to read" << endl;
-
         return 0;
     }
 
-    string name = string(argv[1]);
-    if (name.substr(name.find_last_of(".") + 1) != "stl")
-    {
-        cout << "File must be a .stl file" << endl;
-        return 0;
-    }
-
+    // Check that the file is opened
     file.open(argv[1]);
-
     if (!file.is_open())
     {
         cout << "File not found" << endl;
         return 0;
     }
 
+    // Parse file
     while (getline(file, line))
     {
+        // Start of a facet
         if (line.find("facet") != string::npos && line.find("endfacet") == string::npos)
         {
             num_facets++;
             in_facet = true;
             cout << "Facet " << num_facets << ": " << endl;
         }
+        // End of a facet
         else if (line.find("endfacet") != string::npos)
         {
             in_facet = false;
         }
+        // A vertex in a facet
         else if (line.find("vertex") != string::npos && in_facet)
         {
             stringstream str_strm(line);
@@ -75,7 +100,7 @@ int main(int argc, char **argv)
             maxY = max(y, maxY);
             maxZ = max(z, maxZ);
 
-            cout << "\tX: " << x << " Y: " << y << " Z: " << z << endl;
+            cout << "\tVertex { X: " << x << " Y: " << y << " Z: " << z << " }" << endl;
         }
     }
 
