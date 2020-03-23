@@ -1,6 +1,6 @@
 CC := g++
 CFLAGS := -Wall -g
-TARGET := ./build/out
+TARGET := ./out
 
 # $(wildcard *.cpp /xxx/xxx/*.cpp): get all .cpp files from the current directory and dir "/xxx/xxx/"
 SRCS := $(wildcard *.cpp)
