@@ -103,8 +103,13 @@ matrix matrix::operator*(const matrix &rhs) const
 
 matrix matrix::operator*(const double scale) const
 {
-	// stub
 	matrix retVal(*this);
+
+	for (int i = 0; i < (rows * cols); i++)
+	{
+		retVal.the_matrix[i * rows + cols] *= scale;
+	}
+
 	return retVal;
 }
 
@@ -135,6 +140,11 @@ void matrix::clear()
 
 double *matrix::operator[](unsigned int row)
 {
+	if (row >= rows)
+	{
+		throw matrixException("row index out of bounds");
+	}
+
 	double *ret = the_matrix;
 
 	ret += row * cols;
@@ -144,6 +154,11 @@ double *matrix::operator[](unsigned int row)
 
 double *matrix::operator[](unsigned int row) const
 {
+	if (row >= rows)
+	{
+		throw matrixException("row index out of bounds");
+	}
+
 	double *ret = the_matrix;
 
 	ret += row * cols;
@@ -191,7 +206,9 @@ std::ostream &operator<<(std::ostream &os, const matrix &rhs)
 // Global scalar multiplication
 matrix operator*(const double scale, const matrix &rhs)
 {
-	// stub
 	matrix retval(rhs);
+
+	retval = rhs * scale;
+
 	return retval;
 }
