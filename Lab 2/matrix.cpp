@@ -9,26 +9,44 @@ matrix::matrix(unsigned int rows, unsigned int cols):rows(rows),cols(cols)
 	{
 		throw matrixException("p-constructor bad arguments");
 	}
-	
-	// more to do...
+	// allocate memory
+	the_matrix = new double[rows * cols];
+	// clear
+	clear();
 }
 
 // Copy constructor
 matrix::matrix(const matrix& from):rows(from.rows),cols(from.cols)
 {
-	// stub
+	the_matrix = new double[rows*cols];
+	(*this) = from;
 }
 
 // Destructor
 matrix::~matrix()
 {
-	// stub
+	delete [] the_matrix;
 }
 
 // Assignment operator
 matrix& matrix::operator=(const matrix& rhs)
 {
-	// stub
+	if (this != &rhs)
+	{
+		if ((rows*cols) != (rhs.rows*rhs.cols))
+		{
+			delete [] the_matrix;
+			the_matrix = new double[rhs.rows * rhs.cols];
+		}
+
+		rows = rhs.rows;
+		cols = rhs.cols;
+
+		for (int i = 0; i < (rows*cols); i++)
+		{
+			the_matrix[i] = rhs.the_matrix[i];
+		}
+	}
 	return *this;
 }
 
@@ -75,7 +93,10 @@ matrix matrix::operator~() const
 
 void matrix::clear()
 {
-	// stub
+	for (int i=0; i<(rows*cols); i++)
+	{
+		the_matrix[i] = 0.0;
+	}
 	return;
 }
 
