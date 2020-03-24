@@ -88,17 +88,14 @@ matrix matrix::operator*(const matrix &rhs) const
 		throw matrixException("Operator+ size mismatch");
 	}
 
-	matrix retVal(rows, rhs.cols);
+	matrix product(rows, rhs.cols);
 
-	for (int i = 0; i < rows; i++)
-	{
-		for (int j = 0; j < rhs.cols; j++)
-		{
-			the_matrix[i * rhs.cols + j] = 0.0; // todo
-		}
-	}
+	for (int i = 0; i < rows; ++i)
+		for (int j = 0; j < rhs.cols; ++j)
+			for (int k = 0; k < cols; ++k)
+				product[i][j] += (*this)[i][k] * rhs[k][j];
 
-	return retVal;
+	return product;
 }
 
 matrix matrix::operator*(const double scale) const
@@ -107,7 +104,7 @@ matrix matrix::operator*(const double scale) const
 
 	for (int i = 0; i < (rows * cols); i++)
 	{
-		retVal.the_matrix[i * rows + cols] *= scale;
+		retVal.the_matrix[i] *= 2.0;
 	}
 
 	return retVal;
