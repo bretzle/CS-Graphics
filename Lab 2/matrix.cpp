@@ -61,16 +61,41 @@ matrix matrix::identity(unsigned int size)
 // Binary operations
 matrix matrix::operator+(const matrix& rhs) const
 {
-	// stub
-	matrix retVal(rhs);
+	if (rows!=rhs.rows || cols!=rhs.cols)
+	{
+		throw matrixException("Operator+ size mismatch");
+	}
+	
+	matrix retVal(rows, cols);
+
+	for (int i = 0; i < (rows*cols); i++)
+	{
+		retVal.the_matrix[i] = the_matrix[i] + rhs.the_matrix[i];
+	}
+
 	return retVal;
 }
 
 
 matrix matrix::operator*(const matrix& rhs) const
 {
-	// stub
-	matrix retVal(rhs);
+	if (cols != rhs.rows)
+	{
+		throw matrixException("Operator+ size mismatch");
+	}
+	
+	matrix retVal(rows, rhs.cols);
+
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < rhs.cols; j++)
+		{
+			the_matrix[i*rhs.cols + j] = 0.0; // todo
+		}
+		
+	}
+	
+
 	return retVal;
 }
 
@@ -115,7 +140,20 @@ double* matrix::operator[](unsigned int row) const
 
 std::ostream& matrix::out(std::ostream& os) const
 {
-	// stub
+	os << "Matrix { ";
+
+	for (int i = 0; i < (rows*cols); i++)
+	{
+		os << the_matrix[i];
+		if (i != (rows*cols-1)) {
+			os << ", ";
+		} else {
+			os << " ";
+		}
+	}
+	
+	os << "}";
+	
 	return os;	
 }
 
@@ -124,8 +162,7 @@ std::ostream& matrix::out(std::ostream& os) const
 // Global insertion and operator
 std::ostream& operator<<(std::ostream& os, const matrix& rhs)
 {
-	// stub
-	os << "todo";
+	rhs.out(os);
 	return os;
 }
 
