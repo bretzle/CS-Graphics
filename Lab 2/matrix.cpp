@@ -53,8 +53,14 @@ matrix& matrix::operator=(const matrix& rhs)
 // Named constructor (static)
 matrix matrix::identity(unsigned int size)
 {
-	// use p-constructor
-	return matrix(size,size);
+	matrix ret(size, size);
+
+	for (int i = 0; i < size; i++)
+	{
+		ret[i][i] = 1.0;
+	}
+
+	return ret;
 }
 
 
@@ -110,8 +116,16 @@ matrix matrix::operator*(const double scale) const
 // Unary operations
 matrix matrix::operator~() const
 {
-	// stub
 	matrix retVal(*this);
+
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			retVal.the_matrix[i*rows+j] = the_matrix[j*rows+i];
+		}
+	}
+
 	return retVal;
 }
 	
@@ -127,34 +141,51 @@ void matrix::clear()
 
 double* matrix::operator[](unsigned int row)
 {
-	// stub
-	return NULL;
+	double* ret = the_matrix;
+
+	ret += row*cols;
+
+	return ret;
 }
 
 double* matrix::operator[](unsigned int row) const
 {
-	// stub
-	return NULL;
+	double* ret = the_matrix;
+
+	ret += row*cols;
+
+	return ret;
 }
 
 
 std::ostream& matrix::out(std::ostream& os) const
 {
-	os << "Matrix { ";
-
-	for (int i = 0; i < (rows*cols); i++)
+	os << "[[ ";
+	for (int z = 0; z < cols; z++)
 	{
-		os << the_matrix[i];
-		if (i != (rows*cols-1)) {
-			os << ", ";
-		} else {
-			os << " ";
-		}
+		os << the_matrix[z] << " ";
 	}
 	
-	os << "}";
-	
-	return os;	
+	os << "]" << std::endl;
+
+	for (int i = 1; i < rows - 1; i++)
+	{
+		os << " [ ";
+		for (int z = 0; z < cols; z++)
+	{
+		os << the_matrix[i*rows + z] << " ";
+	}
+		os << "]" << std::endl;
+	}
+
+	os << " [ ";
+	for (int z = 0; z < cols; z++)
+	{
+		os << the_matrix[(rows-1)*rows + z] << " ";
+	}
+	os << "]]";
+
+	return os;
 }
 
 

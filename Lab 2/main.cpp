@@ -31,6 +31,12 @@ int main(void)
 	{
 		cout << "m4 - exception expected and thrown" << endl;
 	}
+
+	matrix m5 = matrix::identity(3);
+	matrix m6 = ~m5;
+
+	cout << m5 << endl;
+	cout << m6 << endl;
 	
 	return 0;
 }		
