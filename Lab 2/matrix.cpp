@@ -2,13 +2,14 @@
 #include <string>
 #include <cmath>
 
+// used to prevent unsigned vs signed compare problems in for loops
+#define uint unsigned int
+
 // Parameterized constructor
 matrix::matrix(unsigned int rows, unsigned int cols) : rows(rows), cols(cols)
 {
 	if (rows < 1 || cols < 1)
-	{
 		throw matrixException("p-constructor bad arguments");
-	}
 	// allocate memory
 	the_matrix = new double[rows * cols];
 	// clear
@@ -35,6 +36,7 @@ matrix &matrix::operator=(const matrix &rhs)
 	{
 		if ((rows * cols) != (rhs.rows * rhs.cols))
 		{
+			// allocate the proper amount of memory
 			delete[] the_matrix;
 			the_matrix = new double[rhs.rows * rhs.cols];
 		}
@@ -42,10 +44,9 @@ matrix &matrix::operator=(const matrix &rhs)
 		rows = rhs.rows;
 		cols = rhs.cols;
 
-		for (int i = 0; i < (rows * cols); i++)
-		{
+		// copy values
+		for (uint i = 0; i < (rows * cols); i++)
 			the_matrix[i] = rhs.the_matrix[i];
-		}
 	}
 	return *this;
 }
@@ -55,10 +56,8 @@ matrix matrix::identity(unsigned int size)
 {
 	matrix ret(size, size);
 
-	for (int i = 0; i < size; i++)
-	{
+	for (uint i = 0; i < size; i++)
 		ret[i][i] = 1.0;
-	}
 
 	return ret;
 }
@@ -67,16 +66,12 @@ matrix matrix::identity(unsigned int size)
 matrix matrix::operator+(const matrix &rhs) const
 {
 	if (rows != rhs.rows || cols != rhs.cols)
-	{
 		throw matrixException("Operator+ size mismatch");
-	}
 
 	matrix retVal(rows, cols);
 
-	for (int i = 0; i < (rows * cols); i++)
-	{
+	for (uint i = 0; i < (rows * cols); i++)
 		retVal.the_matrix[i] = the_matrix[i] + rhs.the_matrix[i];
-	}
 
 	return retVal;
 }
@@ -84,15 +79,13 @@ matrix matrix::operator+(const matrix &rhs) const
 matrix matrix::operator*(const matrix &rhs) const
 {
 	if (cols != rhs.rows)
-	{
 		throw matrixException("Operator+ size mismatch");
-	}
 
 	matrix product(rows, rhs.cols);
 
-	for (int i = 0; i < rows; ++i)
-		for (int j = 0; j < rhs.cols; ++j)
-			for (int k = 0; k < cols; ++k)
+	for (uint i = 0; i < rows; ++i)
+		for (uint j = 0; j < rhs.cols; ++j)
+			for (uint k = 0; k < cols; ++k)
 				product[i][j] += (*this)[i][k] * rhs[k][j];
 
 	return product;
@@ -102,10 +95,8 @@ matrix matrix::operator*(const double scale) const
 {
 	matrix retVal(*this);
 
-	for (int i = 0; i < (rows * cols); i++)
-	{
-		retVal.the_matrix[i] *= 2.0;
-	}
+	for (uint i = 0; i < (rows * cols); i++)
+		retVal.the_matrix[i] *= scale;
 
 	return retVal;
 }
@@ -115,32 +106,25 @@ matrix matrix::operator~() const
 {
 	matrix retVal(*this);
 
-	for (int i = 0; i < rows; i++)
-	{
-		for (int j = 0; j < cols; j++)
-		{
+	for (uint i = 0; i < rows; i++)
+		for (uint j = 0; j < cols; j++)
 			retVal.the_matrix[i * rows + j] = the_matrix[j * rows + i];
-		}
-	}
 
 	return retVal;
 }
 
 void matrix::clear()
 {
-	for (int i = 0; i < (rows * cols); i++)
-	{
+	for (uint i = 0; i < (rows * cols); i++)
 		the_matrix[i] = 0.0;
-	}
+
 	return;
 }
 
 double *matrix::operator[](unsigned int row)
 {
 	if (row >= rows)
-	{
 		throw matrixException("row index out of bounds");
-	}
 
 	double *ret = the_matrix;
 
@@ -152,9 +136,7 @@ double *matrix::operator[](unsigned int row)
 double *matrix::operator[](unsigned int row) const
 {
 	if (row >= rows)
-	{
 		throw matrixException("row index out of bounds");
-	}
 
 	double *ret = the_matrix;
 
@@ -166,28 +148,22 @@ double *matrix::operator[](unsigned int row) const
 std::ostream &matrix::out(std::ostream &os) const
 {
 	os << "[[ ";
-	for (int z = 0; z < cols; z++)
-	{
+	for (uint z = 0; z < cols; z++)
 		os << the_matrix[z] << " ";
-	}
 
 	os << "]" << std::endl;
 
-	for (int i = 1; i < rows - 1; i++)
+	for (uint i = 1; i < rows - 1; i++)
 	{
 		os << " [ ";
-		for (int z = 0; z < cols; z++)
-		{
+		for (uint z = 0; z < cols; z++)
 			os << the_matrix[i * rows + z] << " ";
-		}
 		os << "]" << std::endl;
 	}
 
 	os << " [ ";
-	for (int z = 0; z < cols; z++)
-	{
+	for (uint z = 0; z < cols; z++)
 		os << the_matrix[(rows - 1) * rows + z] << " ";
-	}
 	os << "]]";
 
 	return os;
