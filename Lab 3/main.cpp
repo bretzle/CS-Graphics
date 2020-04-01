@@ -4,21 +4,23 @@
 
 int main(void)
 {
-	GraphicsContext *gc = new X11Context(800, 600, GraphicsContext::BLACK);
+	GraphicsContext *gc = new X11Context(500, 500, GraphicsContext::BLACK);
 
 	// draw some lines
 	gc->setColor(GraphicsContext::GREEN);
-	gc->setPixel(10, 10);
-	gc->setPixel(30, 30);
-	gc->drawLine(100, 100, 100, 500);
-	gc->setColor(GraphicsContext::RED);
-	gc->drawLine(100, 500, 500, 500);
-	gc->setColor(GraphicsContext::BLUE);
-	gc->drawLine(500, 500, 500, 100);
-	gc->setColor(GraphicsContext::YELLOW);
-	gc->drawLine(500, 100, 100, 100);
-	gc->setColor(GraphicsContext::MAGENTA);
-	gc->drawCircle(300, 300, 200);
+
+	// big square
+	gc->drawLine(10, 10, 10, 490);
+	gc->drawLine(10, 10, 490, 10);
+	gc->drawLine(490, 490, 490, 10);
+	gc->drawLine(490, 490, 10, 490);
+
+	for (int i = 10; i <= 490; i += 20)
+	{
+		gc->drawLine(10, i, 490, 500 - i);
+		gc->drawLine(i, 10, 500 - i, 490);
+	}
+
 	sleep(5);
 
 	delete gc;
