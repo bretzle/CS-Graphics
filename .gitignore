@@ -1,5 +1,7 @@
 *.o
+*.d
 */build/
 *.zip
 *.pdf
 out
+lines

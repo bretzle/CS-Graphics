@@ -3,8 +3,8 @@
  * 'sudo apt-get install libx11-dev' should help.
  */
 
-#include <X11/Xlib.h> // Every Xlib program must include this
-#include <X11/Xutil.h> // needed for XGetPixel
+#include <X11/Xlib.h>	// Every Xlib program must include this
+#include <X11/Xutil.h>	// needed for XGetPixel
 #include <X11/XKBlib.h> // needed for keyboard setup
 #include "x11context.h"
 #include "drawbase.h"
@@ -14,21 +14,21 @@
  * The only constructor provided.  Allows size of window and background
  * color be specified.
  * */
-X11Context::X11Context(unsigned int sizex=400,unsigned int sizey=400,
-						unsigned int bg_color=GraphicsContext::BLACK)
+X11Context::X11Context(unsigned int sizex = 400, unsigned int sizey = 400,
+					   unsigned int bg_color = GraphicsContext::BLACK)
 {
 	// Open the display
 	display = XOpenDisplay(NULL);
-	
+
 	// Holding a key in gives repeated key_press commands but only
 	// one key_release
 	int supported;
-	
-	XkbSetDetectableAutoRepeat(display,true,&supported);
 
-	// Create a window - we will assume the color map is in RGB mode.  
-	window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0, 
-				 sizex, sizey, 0, 0 , bg_color);
+	XkbSetDetectableAutoRepeat(display, true, &supported);
+
+	// Create a window - we will assume the color map is in RGB mode.
+	window = XCreateSimpleWindow(display, DefaultRootWindow(display), 0, 0,
+								 sizex, sizey, 0, 0, bg_color);
 
 	// Sign up for MapNotify events
 	XSelectInput(display, window, StructureNotifyMask);
@@ -43,21 +43,16 @@ X11Context::X11Context(unsigned int sizex=400,unsigned int sizey=400,
 	XSetForeground(display, graphics_context, GraphicsContext::WHITE);
 
 	// Wait for MapNotify event
-	for(;;) 
+	for (;;)
 	{
 		XEvent e;
 		XNextEvent(display, &e);
 		if (e.type == MapNotify)
-		break;
+			break;
 	}
 
 	// We also want exposure, mouse, and keyboard events
-	XSelectInput(display, window, ExposureMask|
-								ButtonPressMask|
-								ButtonReleaseMask|
-								KeyPressMask|
-								KeyReleaseMask|
-								PointerMotionMask);
+	XSelectInput(display, window, ExposureMask | ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask | PointerMotionMask);
 
 	// We need this to get the WM_DELETE_WINDOW message from the
 	// window manager in case user click the X icon
@@ -71,7 +66,7 @@ X11Context::X11Context(unsigned int sizex=400,unsigned int sizey=400,
 X11Context::~X11Context()
 {
 	XFreeGC(display, graphics_context);
-	XDestroyWindow(display,window);
+	XDestroyWindow(display, window);
 	XCloseDisplay(display);
 }
 
@@ -80,11 +75,11 @@ void X11Context::setMode(drawMode newMode)
 {
 	if (newMode == GraphicsContext::MODE_NORMAL)
 	{
-		XSetFunction(display,graphics_context,GXcopy);
+		XSetFunction(display, graphics_context, GXcopy);
 	}
 	else
 	{
-		XSetFunction(display,graphics_context,GXxor);
+		XSetFunction(display, graphics_context, GXxor);
 	}
 }
 
@@ -92,8 +87,8 @@ void X11Context::setMode(drawMode newMode)
 void X11Context::setColor(unsigned int color)
 {
 	// Go ahead and set color here - better performance than setting
-	// on every setPixel 
-    XSetForeground(display, graphics_context, color);
+	// on every setPixel
+	XSetForeground(display, graphics_context, color);
 }
 
 // Set a pixel in the current color
@@ -106,12 +101,12 @@ void X11Context::setPixel(int x, int y)
 unsigned int X11Context::getPixel(int x, int y)
 {
 	XImage *image;
-	image = XGetImage (display, window, x, y, 1, 1, AllPlanes, XYPixmap);
+	image = XGetImage(display, window, x, y, 1, 1, AllPlanes, XYPixmap);
 	XColor color;
-	color.pixel = XGetPixel (image, 0, 0);
-	XFree (image);
-	XQueryColor (display, DefaultColormap(display, DefaultScreen (display)),
-					&color);
+	color.pixel = XGetPixel(image, 0, 0);
+	XFree(image);
+	XQueryColor(display, DefaultColormap(display, DefaultScreen(display)),
+				&color);
 	// I now have RGB values, but, they are 16 bits each, I only want 8-bits
 	// each since I want a 24-bit RGB color value
 	unsigned int pixcolor = color.red & 0xff00;
@@ -127,14 +122,12 @@ void X11Context::clear()
 	XFlush(display);
 }
 
- 
-
 // Run event loop
-void X11Context::runLoop(DrawingBase* drawing)
+void X11Context::runLoop(DrawingBase *drawing)
 {
 	run = true;
-	
-	while(run)
+
+	while (run)
 	{
 		XEvent e;
 		XNextEvent(display, &e);
@@ -145,63 +138,67 @@ void X11Context::runLoop(DrawingBase* drawing)
 
 		// Key Down
 		else if (e.type == KeyPress)
-			drawing->keyDown(this,XLookupKeysym((XKeyEvent*)&e,
-					(((e.xkey.state&0x01)&&!(e.xkey.state&0x02))||
-					(!(e.xkey.state&0x01)&&(e.xkey.state&0x02)))?1:0));
-	 
+			drawing->keyDown(this, XLookupKeysym((XKeyEvent *)&e,
+												 (((e.xkey.state & 0x01) && !(e.xkey.state & 0x02)) ||
+												  (!(e.xkey.state & 0x01) && (e.xkey.state & 0x02)))
+													 ? 1
+													 : 0));
+
 		// Key Up
-		else if (e.type == KeyRelease){
-			drawing->keyUp(this,XLookupKeysym((XKeyEvent*)&e,
-					(((e.xkey.state&0x01)&&!(e.xkey.state&0x02))||
-					(!(e.xkey.state&0x01)&&(e.xkey.state&0x02)))?1:0));
-				}
+		else if (e.type == KeyRelease)
+		{
+			drawing->keyUp(this, XLookupKeysym((XKeyEvent *)&e,
+											   (((e.xkey.state & 0x01) && !(e.xkey.state & 0x02)) ||
+												(!(e.xkey.state & 0x01) && (e.xkey.state & 0x02)))
+												   ? 1
+												   : 0));
+		}
 
 		// Mouse Button Down
 		else if (e.type == ButtonPress)
 			drawing->mouseButtonDown(this,
-			e.xbutton.button,
-			e.xbutton.x,
-			e.xbutton.y);
-			
+									 e.xbutton.button,
+									 e.xbutton.x,
+									 e.xbutton.y);
+
 		// Mouse Button Up
 		else if (e.type == ButtonRelease)
 			drawing->mouseButtonUp(this,
-			e.xbutton.button,
-			e.xbutton.x,
-			e.xbutton.y);
-			
-		// Mouse Move	
+								   e.xbutton.button,
+								   e.xbutton.x,
+								   e.xbutton.y);
+
+		// Mouse Move
 		else if (e.type == MotionNotify)
 			drawing->mouseMove(this,
-			e.xmotion.x,
-			e.xmotion.y);
+							   e.xmotion.x,
+							   e.xmotion.y);
 
 		// This will respond to the WM_DELETE_WINDOW from the
 		// window manager.
 		else if (e.type == ClientMessage)
-		break;
+			break;
 	}
 }
-
 
 int X11Context::getWindowWidth()
 {
 	XWindowAttributes window_attributes;
-	XGetWindowAttributes(display,window, &window_attributes);
+	XGetWindowAttributes(display, window, &window_attributes);
 	return window_attributes.width;
 }
 
 int X11Context::getWindowHeight()
 {
 	XWindowAttributes window_attributes;
-	XGetWindowAttributes(display,window, &window_attributes);
+	XGetWindowAttributes(display, window, &window_attributes);
 	return window_attributes.height;
 }
 
 // leave these out for now
 //void X11Context::drawLine(int x1, int y1, int x2, int y2)
 //{
-//	XDrawLine(display, window, graphics_context, x1, y1, x2, y2);		
+//	XDrawLine(display, window, graphics_context, x1, y1, x2, y2);
 //	XFlush(display);
 //}
 
@@ -211,4 +208,3 @@ int X11Context::getWindowHeight()
 //				 y-radius, radius*2, radius*2, 0, 360*64);
 //	XFlush(display);
 //}
-
