@@ -15,9 +15,7 @@ GraphicsContext::~GraphicsContext()
 	// here to insure subclasses handle destruction properly
 }
 
-/* This is a naive implementation that uses floating-point math
- * and "setPixel" which will need to be provided by the concrete
- * implementation.
+/* Uses Bresenham's algorithm
  * 
  * Parameters:
  * 	x0, y0 - origin of line
@@ -37,18 +35,18 @@ void GraphicsContext::drawLine(int x0, int y0, int x1, int y1)
 	while (true)
 	{
 		setPixel(x0, y0);
-		
+
 		if (x0 == x1 && y0 == y1)
 			break;
-		
+
 		e2 = err << 1;
-		
+
 		if (e2 >= dy)
 		{
 			err += dy;
 			x0 += sx;
 		}
-		
+
 		if (e2 <= dx)
 		{
 			err += dx;
@@ -59,9 +57,7 @@ void GraphicsContext::drawLine(int x0, int y0, int x1, int y1)
 	return;
 }
 
-/* This is a naive implementation that uses floating-point math
- * and "setPixel" which will need to be provided by the concrete
- * implementation.
+/* Uses the midpoint algorithm
  * 
  * Parameters:
  * 	x0, y0 - origin/center of circle
@@ -71,26 +67,41 @@ void GraphicsContext::drawLine(int x0, int y0, int x1, int y1)
  */
 void GraphicsContext::drawCircle(int x0, int y0, unsigned int radius)
 {
-	// This is a naive implementation that draws many line
-	// segments.  Also uses floating point math for poor performance
+	int p = 1 - radius;
+	int ddF_x = 0;
+	int ddF_y = -2 * radius;
+	int x = 0;
+	int y = radius;
 
-	// also, large circles will be "jagged"
+	// edges
+	setPixel(x0, y0 + radius);
+	setPixel(x0, y0 - radius);
+	setPixel(x0 + radius, y0);
+	setPixel(x0 - radius, y0);
 
-	// start at 0 degrees
-	int oldx = radius;
-	int oldy = 0;
-
-	// go from 1 to 360 degrees
-	for (int segment = 1; segment <= 360; segment += 1)
+	while (x < y)
 	{
-		int newx = std::cos(segment * M_PI / 180) * radius;
-		int newy = std::sin(segment * M_PI / 180) * radius;
+		// outside the circle circle
+		if (p >= 0)
+		{
+			--y;
+			ddF_y += 2;
+			p += ddF_y;
+		}
+		
+		++x;
+		ddF_x += 2;
+		p += ddF_x + 1;
 
-		// hit four quadrants
-		drawLine(x0 + oldx, y0 + oldy, x0 + newx, y0 + newy);
-
-		oldx = newx;
-		oldy = newy;
+		// the octants
+		setPixel(x0 + x, y0 - y); // 1
+		setPixel(x0 + y, y0 - x); // 2
+		setPixel(x0 + y, y0 + x); // 3
+		setPixel(x0 + x, y0 + y); // 4
+		setPixel(x0 - x, y0 + y); // 5
+		setPixel(x0 - y, y0 + x); // 6
+		setPixel(x0 - y, y0 - x); // 7
+		setPixel(x0 - x, y0 - y); // 8
 	}
 
 	return;
