@@ -1,18 +1,21 @@
-CC := g++
-CFLAGS := -Wall -g
-TARGET := ./out
+CC=g++
+CFLAGS=-c -Wall
+LDFLAGS= -lX11
+SOURCES=main.cpp gcontext.cpp x11context.cpp
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=out
 
-# $(wildcard *.cpp /xxx/xxx/*.cpp): get all .cpp files from the current directory and dir "/xxx/xxx/"
-SRCS := $(wildcard *.cpp)
-# $(patsubst %.cpp,%.o,$(SRCS)): substitute all ".cpp" file name strings to ".o" file name strings
-OBJS := $(patsubst %.cpp,%.o,$(SRCS))
+all: $(SOURCES) $(EXECUTABLE) 
 
-all: $(TARGET)
-$(TARGET): $(OBJS)
-	$(CC) -o $@ $^
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $<
+# pull in dependency info for *existing* .o files
+-include $(OBJECTS:.o=.d)
+
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+
+.cpp.o: 
+	$(CC) $(CFLAGS) $< -o $@
+	$(CC) -MM $(CFLAGS) $< > $*.d
+
 clean:
-	rm -rf $(TARGET) *.o
-	
-.PHONY: all clean
+	rm -rf $(OBJECTS) $(EXECUTABLE) *.d
