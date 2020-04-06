@@ -1,0 +1,13 @@
+{
+    // Hide output files from g++
+    "files.exclude": {
+        "**/*.o": true
+    },
+    "files.associations": {
+        "limits": "cpp",
+        "string": "cpp",
+        "iostream": "cpp",
+        "iosfwd": "cpp",
+        "*.tcc": "cpp"
+    }
+}
