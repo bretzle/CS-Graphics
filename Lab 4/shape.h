@@ -71,8 +71,24 @@ public:
 
 /////////////////////////////////////////////////////////////////////
 
+class Rect : public Shape
+{
+private:
+    matrix p2;
+
+public:
+    Rect(double x0, double y0, double x1, double y1, int color);
+    ~Rect();
+
+    void draw(GraphicsContext *gc);
+    std::ostream &out(std::ostream &os) const;
+};
+
+/////////////////////////////////////////////////////////////////////
+
 std::ostream &operator<<(std::ostream &os, const Line &rhs);
 std::ostream &operator<<(std::ostream &os, const Triangle &rhs);
 std::ostream &operator<<(std::ostream &os, const Circle &rhs);
+std::ostream &operator<<(std::ostream &os, const Rect &rhs);
 
 #endif
