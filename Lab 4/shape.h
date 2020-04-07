@@ -1,6 +1,7 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
+#include <vector>
 #include "matrix.h"
 #include "gcontext.h"
 
@@ -86,9 +87,29 @@ public:
 
 /////////////////////////////////////////////////////////////////////
 
+class ShapeTainer
+{
+private:
+    std::vector<Shape *> shapes;
+
+public:
+    ShapeTainer();
+    ShapeTainer(const ShapeTainer &from);
+    ~ShapeTainer();
+
+    ShapeTainer &operator=(const ShapeTainer &rhs);
+
+    void add(Shape *s);
+    void draw(GraphicsContext *gc) const;
+    std::ostream &out(std::ostream &os) const;
+};
+
+/////////////////////////////////////////////////////////////////////
+
 std::ostream &operator<<(std::ostream &os, const Line &rhs);
 std::ostream &operator<<(std::ostream &os, const Triangle &rhs);
 std::ostream &operator<<(std::ostream &os, const Circle &rhs);
 std::ostream &operator<<(std::ostream &os, const Rect &rhs);
+std::ostream &operator<<(std::ostream &os, const ShapeTainer &rhs);
 
 #endif
