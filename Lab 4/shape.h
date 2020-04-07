@@ -11,9 +11,13 @@ protected:
 
 public:
     Shape();
+    Shape(const Shape &from);
     virtual ~Shape();
 
     virtual void draw() = 0;
+
+protected:
+    Shape &operator=(const Shape &rhs);
 };
 
 class Line : public Shape

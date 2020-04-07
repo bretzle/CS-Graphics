@@ -23,12 +23,20 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-Shape::Shape() : color(0), origin(4, 1)
-{
-}
+Shape::Shape() : color(0), origin(4, 1) {}
 
-Shape::~Shape()
+Shape::Shape(const Shape &from) : color(from.color), origin(from.origin) {}
+
+Shape::~Shape() {}
+
+Shape &Shape::operator=(const Shape &rhs)
 {
+	if (this != &rhs)
+	{
+		color = rhs.color;
+		origin = matrix(rhs.origin);
+	}
+	return *this;
 }
 
 Line::Line(double x0, double y0, double x1, double y1) : Shape(), end(4, 1)
