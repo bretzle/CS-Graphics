@@ -24,8 +24,7 @@ int main(int argc, char **argv)
 	s.draw(gc);
 	t.draw(gc);
 
-	s.out(cout);
-	t.out(cout);
+	cout << s << t;
 
 	// wait a while
 	sleep(5);

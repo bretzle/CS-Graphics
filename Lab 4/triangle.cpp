@@ -55,3 +55,9 @@ std::ostream &Triangle::out(std::ostream &os) const
 
     return os;
 }
+
+std::ostream &operator<<(std::ostream &os, const Triangle &rhs)
+{
+    rhs.out(os);
+    return os;
+}

@@ -40,3 +40,9 @@ std::ostream &Line::out(std::ostream &os) const
 
     return os;
 }
+
+std::ostream &operator<<(std::ostream &os, const Line &rhs)
+{
+    rhs.out(os);
+    return os;
+}

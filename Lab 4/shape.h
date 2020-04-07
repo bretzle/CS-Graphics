@@ -48,4 +48,7 @@ public:
     std::ostream &out(std::ostream &os) const;
 };
 
+std::ostream &operator<<(std::ostream &os, const Line &rhs);
+std::ostream &operator<<(std::ostream &os, const Triangle &rhs);
+
 #endif
