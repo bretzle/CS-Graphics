@@ -8,7 +8,7 @@ class Shape
 {
 protected:
     int color;
-    matrix origin;
+    matrix p1;
 
 public:
     Shape(int color);
@@ -25,7 +25,7 @@ protected:
 class Line : public Shape
 {
 private:
-    matrix end;
+    matrix p2;
 
 public:
     Line(double x0, double y0, double x1, double y1, int color);
