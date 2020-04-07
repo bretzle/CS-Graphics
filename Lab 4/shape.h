@@ -15,6 +15,7 @@ public:
     virtual ~Shape();
 
     virtual void draw() = 0;
+    virtual std::ostream &out(std::ostream &os) const;
 
 protected:
     Shape &operator=(const Shape &rhs);
@@ -30,6 +31,7 @@ public:
     ~Line();
 
     void draw();
+    std::ostream &out(std::ostream &os) const;
 };
 
 #endif
