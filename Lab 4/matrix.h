@@ -25,8 +25,8 @@ class matrixException:public std::runtime_error
 {
 	public:
 		matrixException(std::string message):
-		      std::runtime_error((std::string("Matrix Exception: ") + 
-		               message).c_str()) {}
+			  std::runtime_error((std::string("Matrix Exception: ") + 
+					   message).c_str()) {}
 };
  
  
@@ -54,7 +54,7 @@ class matrix
 		~matrix();
  
 		// Assignment operator - make this just like rhs.  Must function
-        // correctly even if rhs is a different size than this.
+		// correctly even if rhs is a different size than this.
 		matrix& operator=(const matrix& rhs);
  
 		// "Named" constructor(s).  This is not a language mechanism, rather
