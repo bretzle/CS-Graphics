@@ -100,6 +100,7 @@ public:
 	ShapeTainer &operator=(const ShapeTainer &rhs);
 
 	void add(Shape *s);
+	void erase();
 	void draw(GraphicsContext *gc) const;
 	std::ostream &out(std::ostream &os) const;
 };
