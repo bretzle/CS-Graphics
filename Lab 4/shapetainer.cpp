@@ -40,36 +40,16 @@ std::istream &ShapeTainer::in(std::istream &is)
 	std::string line;
 
 	while (std::getline(is, line))
-	{
 		if (line.rfind("Line", 0) == 0)
-		{
-			Line *l = new Line(0, 0, 0, 0, 0);
-			l->in(is);
-			add(l);
-		}
+			add(new Line(is));
 		else if (line.rfind("Triangle", 0) == 0)
-		{
-			Triangle *t = new Triangle(0, 0, 0, 0, 0, 0, 0);
-			t->in(is);
-			add(t);
-		}
+			add(new Triangle(is));
 		else if (line.rfind("Circle", 0) == 0)
-		{
-			Circle *c = new Circle(0, 0, 0, 0);
-			c->in(is);
-			add(c);
-		}
+			add(new Circle(is));
 		else if (line.rfind("Rect", 0) == 0)
-		{
-			Rect *r = new Rect(0, 0, 0, 0, 0);
-			r->in(is);
-			add(r);
-		}
+			add(new Rect(is));
 		else
-		{
 			std::cout << "Unknown line found. Skipping..." << std::endl;
-		}
-	}
 
 	return is;
 }

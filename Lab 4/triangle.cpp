@@ -19,6 +19,11 @@ Triangle::Triangle(double x0, double y0, double x1, double y1, double x2, double
 	this->p3[3][0] = 1;
 }
 
+Triangle::Triangle(std::istream &is) : Shape(color), p2(4, 1), p3(4, 1)
+{
+	in(is);
+}
+
 Triangle::~Triangle()
 {
 }

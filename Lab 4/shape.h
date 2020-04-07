@@ -35,6 +35,7 @@ private:
 
 public:
 	Line(double x0, double y0, double x1, double y1, int color);
+	Line(std::istream &is);
 	~Line();
 
 	void draw(GraphicsContext *gc);
@@ -51,6 +52,7 @@ private:
 
 public:
 	Triangle(double x0, double y0, double x1, double y1, double x2, double y2, int color);
+	Triangle(std::istream &is);
 	~Triangle();
 
 	void draw(GraphicsContext *gc);
@@ -67,6 +69,7 @@ private:
 
 public:
 	Circle(double x0, double y0, double radius, int color);
+	Circle(std::istream &is);
 	~Circle();
 
 	void draw(GraphicsContext *gc);
@@ -83,6 +86,7 @@ private:
 
 public:
 	Rect(double x0, double y0, double x1, double y1, int color);
+	Rect(std::istream &is);
 	~Rect();
 
 	void draw(GraphicsContext *gc);
@@ -113,6 +117,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////
 
+// print statements
 std::ostream &operator<<(std::ostream &os, const Line &rhs);
 std::ostream &operator<<(std::ostream &os, const Triangle &rhs);
 std::ostream &operator<<(std::ostream &os, const Circle &rhs);

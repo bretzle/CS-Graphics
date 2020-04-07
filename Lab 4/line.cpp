@@ -14,6 +14,11 @@ Line::Line(double x0, double y0, double x1, double y1, int color) : Shape(color)
 	this->p2[3][0] = 1;
 }
 
+Line::Line(std::istream &is) : Shape(color), p2(4, 1)
+{
+	in(is);
+}
+
 Line::~Line()
 {
 }
