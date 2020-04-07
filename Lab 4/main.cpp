@@ -4,9 +4,10 @@
 #include <limits>
 #include <sstream>
 #include <iomanip>
+#include <unistd.h>
 
 #include "shape.h"
-#include "matrix.h"
+#include "x11context.h"
 
 using namespace std;
 
@@ -15,11 +16,15 @@ using namespace std;
  */
 int main(int argc, char **argv)
 {
-	cout << "Lab 4" << endl;
+	GraphicsContext *gc = new X11Context(500, 500, GraphicsContext::BLACK);
 
-	Line s(0, 0, 100, 100);
+	Line s(0, 0, 500, 500, 0xFF0000);
 
-	s.draw();
+	s.draw(gc);
+
+	// wait a while
+	sleep(5);
+	delete gc;
 
 	return 0;
 }

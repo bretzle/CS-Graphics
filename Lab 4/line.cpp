@@ -1,7 +1,7 @@
 #include <iomanip>
 #include "shape.h"
 
-Line::Line(double x0, double y0, double x1, double y1) : Shape(), end(4, 1)
+Line::Line(double x0, double y0, double x1, double y1, int color) : Shape(color), end(4, 1)
 {
     this->origin[0][0] = x0;
     this->origin[1][0] = y0;
@@ -18,9 +18,10 @@ Line::~Line()
 {
 }
 
-void Line::draw()
+void Line::draw(GraphicsContext *gc)
 {
-    out(std::cout);
+    gc->setColor(color);
+    gc->drawLine(origin[0][0], origin[1][0], end[0][0], end[1][0]);
 }
 
 std::ostream &Line::out(std::ostream &os) const

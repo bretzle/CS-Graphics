@@ -2,6 +2,7 @@
 #define SHAPE_H
 
 #include "matrix.h"
+#include "gcontext.h"
 
 class Shape
 {
@@ -10,11 +11,11 @@ protected:
     matrix origin;
 
 public:
-    Shape();
+    Shape(int color);
     Shape(const Shape &from);
     virtual ~Shape();
 
-    virtual void draw() = 0;
+    virtual void draw(GraphicsContext *gc) = 0;
     virtual std::ostream &out(std::ostream &os) const;
 
 protected:
@@ -27,10 +28,10 @@ private:
     matrix end;
 
 public:
-    Line(double x0, double y0, double x1, double y1);
+    Line(double x0, double y0, double x1, double y1, int color);
     ~Line();
 
-    void draw();
+    void draw(GraphicsContext *gc);
     std::ostream &out(std::ostream &os) const;
 };
 

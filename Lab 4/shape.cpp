@@ -1,7 +1,7 @@
 #include <iomanip>
 #include "shape.h"
 
-Shape::Shape() : color(0), origin(4, 1) {}
+Shape::Shape(int color) : color(color), origin(4, 1) {}
 
 Shape::Shape(const Shape &from) : color(from.color), origin(from.origin) {}
 
