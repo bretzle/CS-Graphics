@@ -25,9 +25,30 @@ std::ostream &Shape::out(std::ostream &os) const
 	   << color << std::endl;
 
 	os << "\tP1: ("
-	   << p1[0][0] << ","
-	   << p1[1][0] << ","
+	   << p1[0][0] << " "
+	   << p1[1][0] << " "
 	   << p1[2][0] << ")" << std::endl;
 
 	return os;
+}
+
+std::istream &Shape::in(std::istream &is)
+{
+	std::string line, dump;
+	std::stringstream str_strm;
+	char d;
+
+	std::getline(is, line);
+	str_strm = std::stringstream(line);
+	str_strm >> dump;
+	str_strm >> std::hex >> color;
+
+	std::getline(is, line);
+	str_strm = std::stringstream(line);
+	str_strm >> dump;
+	str_strm >> d;
+	str_strm >> p1[0][0];
+	str_strm >> p1[1][0];
+
+	return is;
 }

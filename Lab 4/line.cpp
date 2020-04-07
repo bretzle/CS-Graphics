@@ -32,13 +32,31 @@ std::ostream &Line::out(std::ostream &os) const
 
 	os << "\tP2: ("
 	   << p2[0][0]
-	   << ","
+	   << " "
 	   << p2[1][0]
-	   << ","
+	   << " "
 	   << p2[2][0]
 	   << ")" << std::endl;
 
 	return os;
+}
+
+std::istream &Line::in(std::istream &is)
+{
+	std::string line, dump;
+	char d;
+	std::stringstream str_strm;
+
+	Shape::in(is);
+
+	std::getline(is, line);
+	str_strm = std::stringstream(line);
+	str_strm >> dump;
+	str_strm >> d;
+	str_strm >> p2[0][0];
+	str_strm >> p2[1][0];
+
+	return is;
 }
 
 std::ostream &operator<<(std::ostream &os, const Line &rhs)

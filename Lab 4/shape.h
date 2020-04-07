@@ -20,6 +20,7 @@ public:
 
 	virtual void draw(GraphicsContext *gc) = 0;
 	virtual std::ostream &out(std::ostream &os) const;
+	virtual std::istream &in(std::istream &is);
 
 protected:
 	Shape &operator=(const Shape &rhs);
@@ -38,6 +39,7 @@ public:
 
 	void draw(GraphicsContext *gc);
 	std::ostream &out(std::ostream &os) const;
+	std::istream &in(std::istream &is);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -53,6 +55,7 @@ public:
 
 	void draw(GraphicsContext *gc);
 	std::ostream &out(std::ostream &os) const;
+	std::istream &in(std::istream &is);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -68,6 +71,7 @@ public:
 
 	void draw(GraphicsContext *gc);
 	std::ostream &out(std::ostream &os) const;
+	std::istream &in(std::istream &is);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -83,6 +87,7 @@ public:
 
 	void draw(GraphicsContext *gc);
 	std::ostream &out(std::ostream &os) const;
+	std::istream &in(std::istream &is);
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -103,6 +108,7 @@ public:
 	void erase();
 	void draw(GraphicsContext *gc) const;
 	std::ostream &out(std::ostream &os) const;
+	std::istream &in(std::istream &is);
 };
 
 /////////////////////////////////////////////////////////////////////

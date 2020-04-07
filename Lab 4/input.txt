@@ -1,0 +1,21 @@
+Line
+	Color: 0xFF0000
+	P1: (0 0 0)
+	P2: (500 500 0)
+Line
+	Color: 0xFF0000
+	P1: (50 50 0)
+	P2: (500 50 0)
+Triangle
+	Color: 0x0000FF
+	P1: (50 450 0)
+	P2: (450 450 0)
+	P3: (250 50 0)
+Circle
+	Color: 0xFF00FF
+	P1: (250 250 0)
+	P2: (350 250 0)
+Rect
+	Color: 0xFFFF00
+	P1: (25 25 0)
+	P2: (475 475 0)

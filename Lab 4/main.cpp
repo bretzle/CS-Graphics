@@ -20,11 +20,10 @@ int main(int argc, char **argv)
 
 	ShapeTainer box = ShapeTainer();
 
-	box.add(new Line(0, 0, 500, 500, 0xFF0000));
-	box.add(new Line(50, 50, 500, 50, 0xFF0000));
-	box.add(new Triangle(50, 450, 450, 450, 250, 50, 0xFF));
-	box.add(new Circle(250, 250, 100, 0xFF00FF));
-	box.add(new Rect(25, 25, 475, 475, 0xFFFF00));
+	ifstream file;
+	file.open("input.txt");
+	box.in(file);
+	file.close();
 
 	box.draw(gc);
 
