@@ -4,6 +4,8 @@
 #include "matrix.h"
 #include "gcontext.h"
 
+/////////////////////////////////////////////////////////////////////
+
 class Shape
 {
 protected:
@@ -22,6 +24,8 @@ protected:
     Shape &operator=(const Shape &rhs);
 };
 
+/////////////////////////////////////////////////////////////////////
+
 class Line : public Shape
 {
 private:
@@ -34,6 +38,8 @@ public:
     void draw(GraphicsContext *gc);
     std::ostream &out(std::ostream &os) const;
 };
+
+/////////////////////////////////////////////////////////////////////
 
 class Triangle : public Shape
 {
@@ -48,7 +54,25 @@ public:
     std::ostream &out(std::ostream &os) const;
 };
 
+/////////////////////////////////////////////////////////////////////
+
+class Circle : public Shape
+{
+private:
+    matrix p2;
+
+public:
+    Circle(double x0, double y0, double radius, int color);
+    ~Circle();
+
+    void draw(GraphicsContext *gc);
+    std::ostream &out(std::ostream &os) const;
+};
+
+/////////////////////////////////////////////////////////////////////
+
 std::ostream &operator<<(std::ostream &os, const Line &rhs);
 std::ostream &operator<<(std::ostream &os, const Triangle &rhs);
+std::ostream &operator<<(std::ostream &os, const Circle &rhs);
 
 #endif
