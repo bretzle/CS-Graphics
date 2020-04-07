@@ -1,7 +1,8 @@
 {
     // Hide output files from g++
     "files.exclude": {
-        "**/*.o": true
+        "**/*.o": true,
+        "**/*.d": true
     },
     "files.associations": {
         "limits": "cpp",
