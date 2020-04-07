@@ -35,4 +35,17 @@ public:
     std::ostream &out(std::ostream &os) const;
 };
 
+class Triangle : public Shape
+{
+private:
+    matrix p2, p3;
+
+public:
+    Triangle(double x0, double y0, double x1, double y1, double x2, double y2, int color);
+    ~Triangle();
+
+    void draw(GraphicsContext *gc);
+    std::ostream &out(std::ostream &os) const;
+};
+
 #endif
