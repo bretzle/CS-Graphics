@@ -34,6 +34,11 @@ void Line::draw(GraphicsContext *gc)
 	gc->drawLine(p1[0][0], p1[1][0], p2[0][0], p2[1][0]);
 }
 
+Shape *Line::clone()
+{
+	return new Line(*this);
+}
+
 std::ostream &Line::out(std::ostream &os) const
 {
 	os << "Line" << std::endl;

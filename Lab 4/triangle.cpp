@@ -21,7 +21,7 @@ Triangle::Triangle(double x0, double y0, double x1, double y1, double x2, double
 
 Triangle::Triangle(const Triangle &from) : Shape(from.color), p2(from.p2), p3(from.p3)
 {
-	p1 = matrix(p1);
+	p1 = matrix(from.p1);
 }
 
 Triangle::Triangle(std::istream &is) : Shape(color), p2(4, 1), p3(4, 1)
@@ -39,6 +39,11 @@ void Triangle::draw(GraphicsContext *gc)
 	gc->drawLine(p1[0][0], p1[1][0], p2[0][0], p2[1][0]);
 	gc->drawLine(p2[0][0], p2[1][0], p3[0][0], p3[1][0]);
 	gc->drawLine(p3[0][0], p3[1][0], p1[0][0], p1[1][0]);
+}
+
+Shape *Triangle::clone()
+{
+	return new Triangle(*this);
 }
 
 std::ostream &Triangle::out(std::ostream &os) const

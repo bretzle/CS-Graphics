@@ -6,6 +6,15 @@
 #include "shape.h"
 
 ShapeTainer::ShapeTainer() {}
+
+ShapeTainer::ShapeTainer(const ShapeTainer &from)
+{
+	for (auto i = from.shapes.cbegin(); i != from.shapes.cend(); ++i)
+	{
+		add((*i)->clone());
+	}
+}
+
 ShapeTainer::~ShapeTainer()
 {
 	erase();

@@ -19,6 +19,7 @@ public:
 	virtual ~Shape();
 
 	virtual void draw(GraphicsContext *gc) = 0;
+	virtual Shape *clone() = 0;
 	virtual std::ostream &out(std::ostream &os) const;
 	virtual std::istream &in(std::istream &is);
 
@@ -40,6 +41,7 @@ public:
 	~Line();
 
 	void draw(GraphicsContext *gc);
+	Shape *clone();
 	std::ostream &out(std::ostream &os) const;
 	std::istream &in(std::istream &is);
 };
@@ -58,6 +60,7 @@ public:
 	~Triangle();
 
 	void draw(GraphicsContext *gc);
+	Shape *clone();
 	std::ostream &out(std::ostream &os) const;
 	std::istream &in(std::istream &is);
 };
@@ -76,6 +79,7 @@ public:
 	~Circle();
 
 	void draw(GraphicsContext *gc);
+	Shape *clone();
 	std::ostream &out(std::ostream &os) const;
 	std::istream &in(std::istream &is);
 };
@@ -94,6 +98,7 @@ public:
 	~Rect();
 
 	void draw(GraphicsContext *gc);
+	Shape *clone();
 	std::ostream &out(std::ostream &os) const;
 	std::istream &in(std::istream &is);
 };

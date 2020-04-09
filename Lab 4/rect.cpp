@@ -16,7 +16,7 @@ Rect::Rect(double x0, double y0, double x1, double y1, int color) : Shape(color)
 
 Rect::Rect(const Rect &from) : Shape(from.color), p2(from.p2)
 {
-	p1 = matrix(p1);
+	p1 = matrix(from.p1);
 }
 
 Rect::Rect(std::istream &is) : Shape(color), p2(4, 1)
@@ -35,6 +35,11 @@ void Rect::draw(GraphicsContext *gc)
 	gc->drawLine(p1[0][0], p1[0][0], p2[0][0], p1[0][0]);
 	gc->drawLine(p1[0][0], p2[1][0], p2[0][0], p2[1][0]);
 	gc->drawLine(p2[0][0], p1[1][0], p2[0][0], p2[1][0]);
+}
+
+Shape *Rect::clone()
+{
+	return new Rect(*this);
 }
 
 std::ostream &Rect::out(std::ostream &os) const

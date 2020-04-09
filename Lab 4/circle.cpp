@@ -16,7 +16,7 @@ Circle::Circle(double x0, double y0, double radius, int color) : Shape(color), p
 
 Circle::Circle(const Circle &from) : Shape(from.color), p2(from.p2)
 {
-	p1 = matrix(p1);
+	p1 = matrix(from.p1);
 }
 
 Circle::Circle(std::istream &is) : Shape(color), p2(4, 1)
@@ -32,6 +32,11 @@ void Circle::draw(GraphicsContext *gc)
 {
 	gc->setColor(color);
 	gc->drawCircle(p1[0][0], p1[1][0], p2[0][0] - p1[0][0]);
+}
+
+Shape *Circle::clone()
+{
+	return new Circle(*this);
 }
 
 std::ostream &Circle::out(std::ostream &os) const
