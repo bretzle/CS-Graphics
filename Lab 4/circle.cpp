@@ -14,6 +14,11 @@ Circle::Circle(double x0, double y0, double radius, int color) : Shape(color), p
 	this->p2[3][0] = 1;
 }
 
+Circle::Circle(const Circle &from) : Shape(from.color), p2(from.p2)
+{
+	p1 = matrix(p1);
+}
+
 Circle::Circle(std::istream &is) : Shape(color), p2(4, 1)
 {
 	in(is);

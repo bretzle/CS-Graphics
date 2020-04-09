@@ -35,6 +35,7 @@ private:
 
 public:
 	Line(double x0, double y0, double x1, double y1, int color);
+	Line(const Line &from);
 	Line(std::istream &is);
 	~Line();
 
@@ -52,6 +53,7 @@ private:
 
 public:
 	Triangle(double x0, double y0, double x1, double y1, double x2, double y2, int color);
+	Triangle(const Triangle &from);
 	Triangle(std::istream &is);
 	~Triangle();
 
@@ -69,6 +71,7 @@ private:
 
 public:
 	Circle(double x0, double y0, double radius, int color);
+	Circle(const Circle &from);
 	Circle(std::istream &is);
 	~Circle();
 
@@ -86,6 +89,7 @@ private:
 
 public:
 	Rect(double x0, double y0, double x1, double y1, int color);
+	Rect(const Rect &from);
 	Rect(std::istream &is);
 	~Rect();
 

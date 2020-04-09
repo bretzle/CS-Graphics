@@ -14,6 +14,11 @@ Rect::Rect(double x0, double y0, double x1, double y1, int color) : Shape(color)
 	this->p2[3][0] = 1;
 }
 
+Rect::Rect(const Rect &from) : Shape(from.color), p2(from.p2)
+{
+	p1 = matrix(p1);
+}
+
 Rect::Rect(std::istream &is) : Shape(color), p2(4, 1)
 {
 	in(is);
