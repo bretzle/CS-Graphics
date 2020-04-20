@@ -68,3 +68,22 @@ std::ostream &operator<<(std::ostream &os, const ShapeTainer &rhs)
 	rhs.out(os);
 	return os;
 }
+
+ShapeTainer &ShapeTainer::operator=(const ShapeTainer &rhs)
+{
+	if (this != &rhs)
+	{
+		shapes.clear();
+
+		for (auto i = rhs.shapes.cbegin(); i != rhs.shapes.cend(); ++i)
+		{
+			add((*i)->clone());
+		}
+	}
+	return *this;
+}
+
+std::vector<Shape *> ShapeTainer::get_shapes()
+{
+	return shapes;
+}

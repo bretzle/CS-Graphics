@@ -122,6 +122,7 @@ public:
 	void draw(GraphicsContext *gc) const;
 	std::ostream &out(std::ostream &os) const;
 	std::istream &in(std::istream &is);
+	std::vector<Shape *> get_shapes();
 };
 
 /////////////////////////////////////////////////////////////////////
