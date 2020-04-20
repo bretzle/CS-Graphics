@@ -1,11 +1,6 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <limits>
-#include <sstream>
-#include <iomanip>
-#include <unistd.h>
-#include <assert.h>
+#include <fstream>  // file io
+#include <unistd.h> // sleep
+#include <assert.h> // assert statements
 
 #include "shape.h"
 #include "x11context.h"
