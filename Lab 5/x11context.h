@@ -28,8 +28,8 @@ public:
 		 * These are not currently overridden, but could be as XLib
 		 * has much more efficient implementations available.
 		 */
-	//void drawLine(int x1, int y1, int x2, int y2);
-	//void drawCircle(int x, int y, int radius);
+	void drawLine(int x1, int y1, int x2, int y2);
+	void drawCircle(int x, int y, int radius);
 
 	// Event looop functions
 	void runLoop(DrawingBase *drawing);
