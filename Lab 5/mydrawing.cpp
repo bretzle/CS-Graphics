@@ -57,6 +57,32 @@ void MyDrawing::mouseButtonDown(GraphicsContext *gc, unsigned int button, int x,
 		dragging = true;
 		break;
 	case triangle:
+		if (num_of_points == 0)
+		{
+			num_of_points = 1;
+			x0 = x;
+			y0 = y;
+			gc->setMode(GraphicsContext::MODE_NORMAL);
+			gc->drawLine(x0, y0, x0, y0);
+		}
+		else if (num_of_points == 1)
+		{
+			num_of_points = 2;
+			x1 = x;
+			y1 = y;
+			gc->setMode(GraphicsContext::MODE_NORMAL);
+			gc->drawLine(x0, y0, x1, y1);
+		}
+		else
+		{
+			num_of_points = 3;
+			x2 = x;
+			y2 = y;
+			gc->setMode(GraphicsContext::MODE_XOR);
+			gc->drawLine(x0, y0, x2, y2);
+			gc->drawLine(x1, y1, x2, y2);
+			dragging = true;
+		}
 		break;
 	case circle:
 	case rect:
@@ -67,37 +93,77 @@ void MyDrawing::mouseButtonDown(GraphicsContext *gc, unsigned int button, int x,
 
 void MyDrawing::mouseButtonUp(GraphicsContext *gc, unsigned int button, int x, int y)
 {
-	if (dragging)
+	switch (state)
 	{
-		// undraw old line
-		gc->drawLine(x0, y0, x1, y1);
-		// just in x and y here do not match x and y of last mouse move
-		x1 = x;
-		y1 = y;
-		// go back to COPY mode
-		gc->setMode(GraphicsContext::MODE_NORMAL);
-		// new line drawn in copy mode
-		gc->drawLine(x0, y0, x1, y1);
-		// clear flag
-		dragging = false;
+	case line:
+		if (dragging)
+		{
+			// undraw old line
+			gc->drawLine(x0, y0, x1, y1);
+			// just in x and y here do not match x and y of last mouse move
+			x1 = x;
+			y1 = y;
+			// go back to COPY mode
+			gc->setMode(GraphicsContext::MODE_NORMAL);
+			// new line drawn in copy mode
+			gc->drawLine(x0, y0, x1, y1);
+			// clear flag
+			dragging = false;
+		}
+		break;
+	case triangle:
+		if (num_of_points == 3 && dragging)
+		{
+			gc->drawLine(x0, y0, x2, y2);
+			gc->drawLine(x1, y1, x2, y2);
+			x2 = x;
+			y2 = y;
+			gc->setMode(GraphicsContext::MODE_NORMAL);
+			gc->drawLine(x0, y0, x2, y2);
+			gc->drawLine(x1, y1, x2, y2);
+			dragging = false;
+			num_of_points = 0;
+		}
+		break;
+	default:
+		break;
 	}
 	return;
 }
 
 void MyDrawing::mouseMove(GraphicsContext *gc, int x, int y)
 {
-	if (dragging)
+	switch (state)
 	{
-		// mouse moved -"undraw" old line, then re-draw in new position
-		// will already be in XOR mode if dragging
-		// old line undrawn
-		gc->drawLine(x0, y0, x1, y1);
-		// update
-		x1 = x;
-		y1 = y;
-		// new line drawn
-		gc->drawLine(x0, y0, x1, y1);
+	case line:
+		if (dragging)
+		{
+			// mouse moved -"undraw" old line, then re-draw in new position
+			// will already be in XOR mode if dragging
+			// old line undrawn
+			gc->drawLine(x0, y0, x1, y1);
+			// update
+			x1 = x;
+			y1 = y;
+			// new line drawn
+			gc->drawLine(x0, y0, x1, y1);
+		}
+		break;
+	case triangle:
+		if (dragging)
+		{
+			gc->drawLine(x0, y0, x2, y2);
+			gc->drawLine(x1, y1, x2, y2);
+			x2 = x;
+			y2 = y;
+			gc->drawLine(x0, y0, x2, y2);
+			gc->drawLine(x1, y1, x2, y2);
+		}
+		break;
+	default:
+		break;
 	}
+
 	return;
 }
 
