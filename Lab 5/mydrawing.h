@@ -7,13 +7,14 @@
 // forward reference
 class GraphicsContext;
 
-enum shape_state
+enum draw_state
 {
 	point = 112,
 	line = 108,
 	triangle = 116,
 	circle = 99,
 	rect = 114,
+	save = 115,
 };
 
 class MyDrawing : public DrawingBase
@@ -38,9 +39,10 @@ private:
 	int y1;
 	int x2;
 	int y2;
-	shape_state state;
+	draw_state state;
 	int num_of_points;
 	bool done;
 	bool dragging; // flag to know if we are dragging
+	ShapeTainer box;
 };
 #endif

@@ -87,6 +87,8 @@ void MyDrawing::mouseButtonDown(GraphicsContext *gc, unsigned int button, int x,
 	case circle:
 	case rect:
 		break;
+	default:
+		break;
 	}
 	return;
 }
@@ -191,6 +193,9 @@ void MyDrawing::keyDown(GraphicsContext *gc, unsigned int keycode)
 	case rect:
 		state = rect;
 		cout << "RECT" << endl;
+		break;
+	case save:
+		
 		break;
 
 	default:
