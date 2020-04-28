@@ -114,6 +114,7 @@ public:
 		 * Returns: void
 		 */
 	virtual void drawCircle(int x0, int y0, unsigned int radius);
+	virtual void drawCircle(int x0, int y0, int x1, int y1);
 
 	/*********************************************************
 		 * Event loop operations

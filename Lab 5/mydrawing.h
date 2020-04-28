@@ -43,6 +43,8 @@ private:
 	int num_of_points;
 	bool done;
 	bool dragging; // flag to know if we are dragging
+	int color;
+	Shape * temp;
 	ShapeTainer box;
 };
 #endif

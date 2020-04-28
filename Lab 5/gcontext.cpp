@@ -88,7 +88,7 @@ void GraphicsContext::drawCircle(int x0, int y0, unsigned int radius)
 			ddF_y += 2;
 			p += ddF_y;
 		}
-		
+
 		++x;
 		ddF_x += 2;
 		p += ddF_x + 1;
@@ -105,6 +105,18 @@ void GraphicsContext::drawCircle(int x0, int y0, unsigned int radius)
 	}
 
 	return;
+}
+
+#include <iostream>
+
+using namespace std;
+
+void GraphicsContext::drawCircle(int x0, int y0, int x1, int y1)
+{
+	int dx = std::abs(x1 - x0);
+	int dy = std::abs(y1 - y0);
+	int r = sqrt((dx * dx) + (dy * dy));
+	drawCircle(x0, y0, (int) r);
 }
 
 void GraphicsContext::endLoop()

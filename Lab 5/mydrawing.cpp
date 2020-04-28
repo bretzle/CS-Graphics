@@ -10,6 +10,7 @@ MyDrawing::MyDrawing()
 	dragging = false;
 	x0 = x1 = x2 = y0 = y1 = y2 = 0;
 	num_of_points = 0;
+	color = GraphicsContext::GREEN;
 	return;
 }
 
@@ -85,7 +86,21 @@ void MyDrawing::mouseButtonDown(GraphicsContext *gc, unsigned int button, int x,
 		}
 		break;
 	case circle:
+		x0 = x;
+		x1 = x;
+		y0 = y;
+		y1 = y;
+		gc->setMode(GraphicsContext::MODE_XOR);
+		gc->drawCircle(x0, y0, x1, y1);
+		dragging = true;
+		break;
 	case rect:
+		x0 = x;
+		y0 = y;
+		x1 = x;
+		y1 = y;
+		gc->setMode(GraphicsContext::MODE_XOR);
+		dragging = true;
 		break;
 	default:
 		break;
@@ -127,6 +142,40 @@ void MyDrawing::mouseButtonUp(GraphicsContext *gc, unsigned int button, int x, i
 			num_of_points = 0;
 		}
 		break;
+	case circle:
+		if (dragging)
+		{
+			// undraw old line
+			gc->drawCircle(x0, y0, x1, y1);
+			// just in x and y here do not match x and y of last mouse move
+			x1 = x;
+			y1 = y;
+			// go back to COPY mode
+			gc->setMode(GraphicsContext::MODE_NORMAL);
+			// new line drawn in copy mode
+			gc->drawCircle(x0, y0, x1, y1);
+			// clear flag
+			dragging = false;
+		}
+		break;
+	case rect:
+		if (dragging)
+		{
+			gc->drawLine(x0, y0, x0, y1);
+			gc->drawLine(x0, y0, x1, y0);
+			gc->drawLine(x0, y1, x1, y1);
+			gc->drawLine(x1, y0, x1, y1);
+
+			x1 = x;
+			y1 = y;
+			gc->setMode(GraphicsContext::MODE_NORMAL);
+
+			gc->drawLine(x0, y0, x0, y1);
+			gc->drawLine(x0, y0, x1, y0);
+			gc->drawLine(x0, y1, x1, y1);
+			gc->drawLine(x1, y0, x1, y1);
+			dragging = false;
+		}
 	default:
 		break;
 	}
@@ -162,6 +211,28 @@ void MyDrawing::mouseMove(GraphicsContext *gc, int x, int y)
 			gc->drawLine(x1, y1, x2, y2);
 		}
 		break;
+	case circle:
+		if (dragging)
+		{
+			gc->drawCircle(x0, y0, x1, y1);
+			x1 = x;
+			y1 = y;
+			gc->drawCircle(x0, y0, x1, y1);
+		}
+	case rect:
+		if (dragging)
+		{
+			gc->drawLine(x0, y0, x0, y1);
+			gc->drawLine(x0, y0, x1, y0);
+			gc->drawLine(x0, y1, x1, y1);
+			gc->drawLine(x1, y0, x1, y1);
+			x1 = x;
+			y1 = y;
+			gc->drawLine(x0, y0, x0, y1);
+			gc->drawLine(x0, y0, x1, y0);
+			gc->drawLine(x0, y1, x1, y1);
+			gc->drawLine(x1, y0, x1, y1);
+		}
 	default:
 		break;
 	}
@@ -192,10 +263,11 @@ void MyDrawing::keyDown(GraphicsContext *gc, unsigned int keycode)
 		break;
 	case rect:
 		state = rect;
+		temp = new Rect(0, 0, 0, 0, color);
 		cout << "RECT" << endl;
 		break;
 	case save:
-		
+
 		break;
 
 	default:
