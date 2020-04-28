@@ -1,0 +1,25 @@
+Line
+	Color: 0x00FF00
+	P1: (188 146 0)
+	P2: (188 146 0)
+Line
+	Color: 0x00FF00
+	P1: (366 176 0)
+	P2: (440 299 0)
+Triangle
+	Color: 0x00FF00
+	P1: (615 166 0)
+	P2: (550 244 0)
+	P3: (697 266 0)
+Circle
+	Color: 0x00FF00
+	P1: (0 0 0)
+	P2: (0 0 0)
+Rect
+	Color: 0x00FF00
+	P1: (512 359 0)
+	P2: (348 490 0)
+Rect
+	Color: 0x00FF00
+	P1: (96 331 0)
+	P2: (203 487 0)

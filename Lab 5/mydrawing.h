@@ -17,6 +17,18 @@ enum draw_state
 	save = 115,
 };
 
+enum color_key
+{
+	BLUE = 49,
+	GREEN = 50,
+	RED = 51,
+	CYAN = 52,
+	MAGENTA = 53,
+	YELLOW = 54,
+	GRAY = 55,
+	WHITE = 56,
+};
+
 class MyDrawing : public DrawingBase
 {
 public:
@@ -44,7 +56,6 @@ private:
 	bool done;
 	bool dragging; // flag to know if we are dragging
 	int color;
-	Shape * temp;
 	ShapeTainer box;
 };
 #endif

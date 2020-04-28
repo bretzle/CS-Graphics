@@ -74,6 +74,7 @@ private:
 
 public:
 	Circle(double x0, double y0, double radius, int color);
+	Circle(double x0, double y0, double x1, double y1, int color);
 	Circle(const Circle &from);
 	Circle(std::istream &is);
 	~Circle();

@@ -1,4 +1,5 @@
 #include <iomanip>
+#include <cmath>
 #include "shape.h"
 
 Circle::Circle(double x0, double y0, double radius, int color) : Shape(color), p2(4, 1)
@@ -12,6 +13,14 @@ Circle::Circle(double x0, double y0, double radius, int color) : Shape(color), p
 	this->p2[1][0] = y0;
 	this->p2[2][0] = 0;
 	this->p2[3][0] = 1;
+}
+
+Circle::Circle(double x0, double y0, double x1, double y1, int color) : Shape(color), p2(4, 1)
+{
+	int dx = std::abs(x1 - x0);
+	int dy = std::abs(y1 - y0);
+	int r = sqrt((dx * dx) + (dy * dy));
+	Circle(x0, y0, r, color);
 }
 
 Circle::Circle(const Circle &from) : Shape(from.color), p2(from.p2)

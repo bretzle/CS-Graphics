@@ -1,8 +1,11 @@
 #include "mydrawing.h"
 #include "gcontext.h"
 #include <iostream>
+#include <fstream>
 
 using namespace std;
+
+void save_to_file(const ShapeTainer box);
 
 // Constructor
 MyDrawing::MyDrawing()
@@ -11,6 +14,7 @@ MyDrawing::MyDrawing()
 	x0 = x1 = x2 = y0 = y1 = y2 = 0;
 	num_of_points = 0;
 	color = GraphicsContext::GREEN;
+	box = ShapeTainer();
 	return;
 }
 
@@ -33,17 +37,6 @@ void MyDrawing::paint(GraphicsContext *gc)
 
 void MyDrawing::mouseButtonDown(GraphicsContext *gc, unsigned int button, int x, int y)
 {
-	// mouse button pushed down
-	// -clear context
-	// -set origin of new line
-	// -set XOR mode for rubber-banding
-	// -draw new line in XOR mode.  Note, at this point, the line is
-	//   degenerate (0 length), but need to do it for consistency
-	// x0 = x1 = x;
-	// y0 = y1 = y;
-	// gc->setMode(GraphicsContext::MODE_XOR);
-	// gc->drawLine(x0, y0, x1, y1);
-	// dragging = true;
 	switch (state)
 	{
 	case point:
@@ -112,6 +105,9 @@ void MyDrawing::mouseButtonUp(GraphicsContext *gc, unsigned int button, int x, i
 {
 	switch (state)
 	{
+	case point:
+		box.add(new Line(x, y, x, y, color));
+		break;
 	case line:
 		if (dragging)
 		{
@@ -126,6 +122,7 @@ void MyDrawing::mouseButtonUp(GraphicsContext *gc, unsigned int button, int x, i
 			gc->drawLine(x0, y0, x1, y1);
 			// clear flag
 			dragging = false;
+			box.add(new Line(x0, y0, x1, y1, color));
 		}
 		break;
 	case triangle:
@@ -140,6 +137,7 @@ void MyDrawing::mouseButtonUp(GraphicsContext *gc, unsigned int button, int x, i
 			gc->drawLine(x1, y1, x2, y2);
 			dragging = false;
 			num_of_points = 0;
+			box.add(new Triangle(x0, y0, x1, y1, x2, y2, color));
 		}
 		break;
 	case circle:
@@ -156,6 +154,7 @@ void MyDrawing::mouseButtonUp(GraphicsContext *gc, unsigned int button, int x, i
 			gc->drawCircle(x0, y0, x1, y1);
 			// clear flag
 			dragging = false;
+			box.add(new Circle(x0, y0, x1, y1, color));
 		}
 		break;
 	case rect:
@@ -175,6 +174,7 @@ void MyDrawing::mouseButtonUp(GraphicsContext *gc, unsigned int button, int x, i
 			gc->drawLine(x0, y1, x1, y1);
 			gc->drawLine(x1, y0, x1, y1);
 			dragging = false;
+			box.add(new Rect(x0, y0, x1, y1, color));
 		}
 	default:
 		break;
@@ -263,13 +263,43 @@ void MyDrawing::keyDown(GraphicsContext *gc, unsigned int keycode)
 		break;
 	case rect:
 		state = rect;
-		temp = new Rect(0, 0, 0, 0, color);
 		cout << "RECT" << endl;
 		break;
 	case save:
-
+		save_to_file(box);
 		break;
-
+	case BLUE:
+		color = GraphicsContext::BLUE;
+		gc->setColor(color);
+		break;
+	case GREEN:
+		color = GraphicsContext::GREEN;
+		gc->setColor(color);
+		break;
+	case RED:
+		color = GraphicsContext::RED;
+		gc->setColor(color);
+		break;
+	case CYAN:
+		color = GraphicsContext::CYAN;
+		gc->setColor(color);
+		break;
+	case MAGENTA:
+		color = GraphicsContext::MAGENTA;
+		gc->setColor(color);
+		break;
+	case YELLOW:
+		color = GraphicsContext::YELLOW;
+		gc->setColor(color);
+		break;
+	case GRAY:
+		color = GraphicsContext::GRAY;
+		gc->setColor(color);
+		break;
+	case WHITE:
+		color = GraphicsContext::WHITE;
+		gc->setColor(color);
+		break;
 	default:
 		cout << "Key down: " << keycode << endl;
 		break;
@@ -285,9 +315,18 @@ void MyDrawing::keyUp(GraphicsContext *gc, unsigned int keycode)
 	case triangle:
 	case circle:
 	case rect:
+	case save:
 		break;
 	default:
 		cout << "Key up: " << keycode << endl;
 		break;
 	}
+}
+
+void save_to_file(const ShapeTainer box)
+{
+	std::ofstream file;
+	file.open("output.txt");
+	file << box;
+	file.close();
 }
